@@ -31,6 +31,12 @@ public class DbConnectSample01 {
             rs = stmt.executeQuery(sql);
 
             // 6. 結果を表示する
+            while(rs.next()) {
+                //Name列の値を取得
+                String name = rs.getString("Name");
+                //取得した値を表示
+                System.out.println(name);
+            }
 
         } catch (ClassNotFoundException e) {
             System.err.println("JDBSドライバーのロードに失敗しました。");
