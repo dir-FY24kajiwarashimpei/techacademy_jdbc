@@ -1,12 +1,18 @@
 package dbSample;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.Statement;
+
+import javax.xml.crypto.dsig.keyinfo.KeyInfo;
+
 import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DbConnectSample01 {
+public class DbConnectSample03 {
 
     public static void main(String[] args) {
         Connection con = null;
@@ -27,7 +33,11 @@ public class DbConnectSample01 {
             stmt = con.createStatement();
 
             // 4, 5. Select分の実行と結果を格納/代入
-            String sql = "SELECT * FROM country LIMIT 50";
+            System.out.print("検索キーワードを入力してください > ");
+            String input = keyIn();
+            
+            
+            String sql = "SELECT * FROM country WHERE Name = '" + input + "'";
             rs = stmt.executeQuery(sql);
 
             // 6. 結果を表示する
@@ -40,6 +50,12 @@ public class DbConnectSample01 {
                 System.out.println(name);
                 System.out.println(population);
             }
+            
+            //6-1. データの更新を行う
+            /*
+            sql = "update country set Population = 105000 where Code = 'ABW'";
+            int count = stmt.executeUpdate(sql);
+            System.out.println(count); */
 
         } catch (ClassNotFoundException e) {
             System.err.println("JDBSドライバーのロードに失敗しました。");
@@ -74,10 +90,19 @@ public class DbConnectSample01 {
                     e.printStackTrace();
                 }
             }
-        } 
-            
+          }  
         }
 
+    private static String keyIn() {
+        String line = null;
+        try {
+            BufferedReader key = new BufferedReader(new InputStreamReader(System.in));
+            line = key.readLine();
+        } catch (IOException e) {
+           
+        }
+        return line;
+    }
     }
 
 
